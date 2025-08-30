@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:latest
+    container_name: LibraryClean
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5431:5432"
+    restart: always
+    volumes:
+      - libraryclean_data:/var/lib/postgresql/data
+volumes:
+  libraryclean_data:
