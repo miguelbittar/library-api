@@ -5,9 +5,13 @@ import dev.miguelbittar.library_api.core.usecases.*;
 import dev.miguelbittar.library_api.infra.dtos.BookDto;
 import dev.miguelbittar.library_api.infra.mapper.BookDtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -32,35 +36,44 @@ public class BookController {
     }
 
     @PostMapping("/books")
-    public String createBook (@RequestBody BookDto bookDto){
-        Book book = createBookUseCase.execute(bookDtoMapper.toEntity(bookDto));
-        return "Registered book";
+    public ResponseEntity<Map<String, Object>> createBook (@RequestBody BookDto bookDto){
+        Book newBook = createBookUseCase.execute(bookDtoMapper.toEntity(bookDto));
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message:", "Book successfully registered in our database");
+        response.put("Book data:", bookDtoMapper.toDto(newBook));
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     };
 
     @GetMapping("/books")
-    public List<BookDto> getAllBooks(){
-        return getAllBooksUseCase.execute().stream()
+    public ResponseEntity<List<BookDto>> getAllBooks(){
+        List<BookDto> books = getAllBooksUseCase.execute().stream()
                 .map(bookDtoMapper::toDto)
                 .collect(Collectors.toList());
+        return ResponseEntity.ok(books);
     }
 
     @GetMapping("/books/search")
-    public List<BookDto> searchByTitle(@RequestParam("title") String title){
-        return searchBooksByTitleUseCase.execute(title).stream()
+    public ResponseEntity<List<BookDto>> searchByTitle(@RequestParam("title") String title){
+        List<BookDto> books = searchBooksByTitleUseCase.execute(title).stream()
                 .map(bookDtoMapper::toDto)
                 .collect(Collectors.toList());
+        return ResponseEntity.ok(books);
     }
 
     @PutMapping("/books/{id}")
-    public String updateBook(@PathVariable Long id, @RequestBody BookDto bookDto){
+    public ResponseEntity<Map<String, Object>> updateBook(@PathVariable Long id, @RequestBody BookDto bookDto){
         Book updated = updateBookUseCase.execute(id, bookDtoMapper.toEntity(bookDto));
-        return "Updated book";
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message:","Book successfully updated in our database");
+        response.put("Book data:", bookDtoMapper.toDto(updated));
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("books/{id}")
-    public String deleteBook(@PathVariable Long id){
+    public ResponseEntity<Map<String, Object>> deleteBook(@PathVariable Long id){
         deleteBookUseCase.execute(id);
-        return "Deleted book";
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message:","Book successfully deleted in our database");
+        return ResponseEntity.ok(response);
     }
-
 }
