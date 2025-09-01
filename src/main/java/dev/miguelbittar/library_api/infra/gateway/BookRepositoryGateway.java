@@ -2,7 +2,6 @@ package dev.miguelbittar.library_api.infra.gateway;
 
 import dev.miguelbittar.library_api.core.entities.Book;
 import dev.miguelbittar.library_api.core.gateway.BookGateway;
-import dev.miguelbittar.library_api.core.usecases.GetAllBooksUseCase;
 import dev.miguelbittar.library_api.infra.mapper.BookEntityMapper;
 import dev.miguelbittar.library_api.infra.persistence.BookEntity;
 import dev.miguelbittar.library_api.infra.persistence.BookRepository;
@@ -33,6 +32,14 @@ public class BookRepositoryGateway implements BookGateway {
     @Override
     public List<Book> getAllBooks(){
         List<BookEntity> entities = bookRepository.findAll();
+        return entities.stream()
+                .map(bookEntityMapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public List<Book> findByTitle(String title) {
+        List<BookEntity> entities = bookRepository.findByTitleContainingIgnoreCase(title);
         return entities.stream()
                 .map(bookEntityMapper::toDomain)
                 .toList();

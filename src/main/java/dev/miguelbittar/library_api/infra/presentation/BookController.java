@@ -3,6 +3,7 @@ package dev.miguelbittar.library_api.infra.presentation;
 import dev.miguelbittar.library_api.core.entities.Book;
 import dev.miguelbittar.library_api.core.usecases.CreateBookUseCase;
 import dev.miguelbittar.library_api.core.usecases.GetAllBooksUseCase;
+import dev.miguelbittar.library_api.core.usecases.SearchBooksByTitleUseCase;
 import dev.miguelbittar.library_api.infra.dtos.BookDto;
 import dev.miguelbittar.library_api.infra.mapper.BookDtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,14 @@ public class BookController {
 
     private final CreateBookUseCase createBookUseCase;
     private final GetAllBooksUseCase getAllBooksUseCase;
+    private final SearchBooksByTitleUseCase searchBooksByTitleUseCase;
     private final BookDtoMapper bookDtoMapper;
 
     @Autowired
-    public BookController(CreateBookUseCase createBookUseCase, GetAllBooksUseCase getAllBooksUseCase, BookDtoMapper bookDtoMapper) {
+    public BookController(CreateBookUseCase createBookUseCase, GetAllBooksUseCase getAllBooksUseCase, SearchBooksByTitleUseCase searchBooksByTitleUseCase, BookDtoMapper bookDtoMapper) {
         this.createBookUseCase = createBookUseCase;
         this.getAllBooksUseCase = getAllBooksUseCase;
+        this.searchBooksByTitleUseCase = searchBooksByTitleUseCase;
         this.bookDtoMapper = bookDtoMapper;
     }
 
@@ -36,6 +39,13 @@ public class BookController {
     @GetMapping("/books")
     public List<BookDto> getAllBooks(){
         return getAllBooksUseCase.execute().stream()
+                .map(bookDtoMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/books/search")
+    public List<BookDto> searchByTitle(@RequestParam("title") String title){
+        return searchBooksByTitleUseCase.execute(title).stream()
                 .map(bookDtoMapper::toDto)
                 .collect(Collectors.toList());
     }
