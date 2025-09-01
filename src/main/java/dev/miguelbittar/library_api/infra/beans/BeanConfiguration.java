@@ -28,4 +28,9 @@ public class BeanConfiguration {
         return new UpdateBookUseCaseImpl(bookGateway);
     }
 
+    @Bean
+    public DeleteBookUseCase deleteBookUseCase (BookGateway bookGateway){
+        return new DeleteBookUseCaseImpl(bookGateway);
+    }
+
 }

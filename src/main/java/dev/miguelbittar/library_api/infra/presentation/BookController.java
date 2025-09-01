@@ -1,10 +1,7 @@
 package dev.miguelbittar.library_api.infra.presentation;
 
 import dev.miguelbittar.library_api.core.entities.Book;
-import dev.miguelbittar.library_api.core.usecases.CreateBookUseCase;
-import dev.miguelbittar.library_api.core.usecases.GetAllBooksUseCase;
-import dev.miguelbittar.library_api.core.usecases.SearchBooksByTitleUseCase;
-import dev.miguelbittar.library_api.core.usecases.UpdateBookUseCase;
+import dev.miguelbittar.library_api.core.usecases.*;
 import dev.miguelbittar.library_api.infra.dtos.BookDto;
 import dev.miguelbittar.library_api.infra.mapper.BookDtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +18,16 @@ public class BookController {
     private final GetAllBooksUseCase getAllBooksUseCase;
     private final SearchBooksByTitleUseCase searchBooksByTitleUseCase;
     private final UpdateBookUseCase updateBookUseCase;
+    private final DeleteBookUseCase deleteBookUseCase;
     private final BookDtoMapper bookDtoMapper;
 
     @Autowired
-    public BookController(CreateBookUseCase createBookUseCase, GetAllBooksUseCase getAllBooksUseCase, SearchBooksByTitleUseCase searchBooksByTitleUseCase, UpdateBookUseCase updateBookUseCase, BookDtoMapper bookDtoMapper) {
+    public BookController(CreateBookUseCase createBookUseCase, GetAllBooksUseCase getAllBooksUseCase, SearchBooksByTitleUseCase searchBooksByTitleUseCase, UpdateBookUseCase updateBookUseCase, DeleteBookUseCase deleteBookUseCase, BookDtoMapper bookDtoMapper) {
         this.createBookUseCase = createBookUseCase;
         this.getAllBooksUseCase = getAllBooksUseCase;
         this.searchBooksByTitleUseCase = searchBooksByTitleUseCase;
         this.updateBookUseCase = updateBookUseCase;
+        this.deleteBookUseCase = deleteBookUseCase;
         this.bookDtoMapper = bookDtoMapper;
     }
 
@@ -56,6 +55,12 @@ public class BookController {
     public String updateBook(@PathVariable Long id, @RequestBody BookDto bookDto){
         Book updated = updateBookUseCase.execute(id, bookDtoMapper.toEntity(bookDto));
         return "Updated book";
+    }
+
+    @DeleteMapping("books/{id}")
+    public String deleteBook(@PathVariable Long id){
+        deleteBookUseCase.execute(id);
+        return "Deleted book";
     }
 
 }

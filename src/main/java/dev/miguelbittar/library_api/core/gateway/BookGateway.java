@@ -11,6 +11,7 @@ public interface BookGateway {
     public List<Book> getAllBooks();
     public List<Book> findByTitle(String title);
     public Optional<Book> findById(Long id);
-    Book save(Book book);
+    public Book save(Book book);
+    public void delete(Long id);
 
 }

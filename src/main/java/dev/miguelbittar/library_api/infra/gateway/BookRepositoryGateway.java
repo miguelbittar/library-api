@@ -60,5 +60,10 @@ public class BookRepositoryGateway implements BookGateway {
         return bookEntityMapper.toDomain(saved);
     }
 
+    @Override
+    public void delete(Long id){
+        bookRepository.deleteById(id);
+    }
+
 
 }
