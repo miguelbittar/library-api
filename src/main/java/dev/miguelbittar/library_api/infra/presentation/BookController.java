@@ -39,8 +39,8 @@ public class BookController {
     public ResponseEntity<Map<String, Object>> createBook (@RequestBody BookDto bookDto){
         Book newBook = createBookUseCase.execute(bookDtoMapper.toEntity(bookDto));
         Map<String, Object> response = new HashMap<>();
-        response.put("Message:", "Book successfully registered in our database");
-        response.put("Book data:", bookDtoMapper.toDto(newBook));
+        response.put("message", "Book successfully registered in our database");
+        response.put("book data", bookDtoMapper.toDto(newBook));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     };
 
@@ -64,8 +64,8 @@ public class BookController {
     public ResponseEntity<Map<String, Object>> updateBook(@PathVariable Long id, @RequestBody BookDto bookDto){
         Book updated = updateBookUseCase.execute(id, bookDtoMapper.toEntity(bookDto));
         Map<String, Object> response = new HashMap<>();
-        response.put("Message:","Book successfully updated in our database");
-        response.put("Book data:", bookDtoMapper.toDto(updated));
+        response.put("message","Book successfully updated in our database");
+        response.put("book data", bookDtoMapper.toDto(updated));
         return ResponseEntity.ok(response);
     }
 

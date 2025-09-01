@@ -19,6 +19,7 @@ public class BookEntity {
 
     private String description;
 
+    @Column(unique = true, nullable = false)
     private String isbn;
 
     @NotNull
