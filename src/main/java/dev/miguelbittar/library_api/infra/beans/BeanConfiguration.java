@@ -23,4 +23,9 @@ public class BeanConfiguration {
         return new SearchBooksByTitleUseCaseImpl(bookGateway);
     }
 
+    @Bean
+    public UpdateBookUseCase updateBookUseCase(BookGateway bookGateway){
+        return new UpdateBookUseCaseImpl(bookGateway);
+    }
+
 }

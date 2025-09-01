@@ -10,4 +10,7 @@ public interface BookGateway {
     public Book createBook(Book book);
     public List<Book> getAllBooks();
     public List<Book> findByTitle(String title);
+    public Optional<Book> findById(Long id);
+    Book save(Book book);
+
 }

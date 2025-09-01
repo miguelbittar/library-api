@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class BookRepositoryGateway implements BookGateway {
@@ -43,6 +44,20 @@ public class BookRepositoryGateway implements BookGateway {
         return entities.stream()
                 .map(bookEntityMapper::toDomain)
                 .toList();
+    }
+
+    @Override
+    public Optional<Book> findById(Long id){
+        return bookRepository.findById(id)
+                .map(bookEntityMapper::toDomain);
+
+    }
+
+    @Override
+    public Book save(Book book) {
+        BookEntity entity = bookEntityMapper.toEntity(book);
+        BookEntity saved = bookRepository.save(entity);
+        return bookEntityMapper.toDomain(saved);
     }
 
 
