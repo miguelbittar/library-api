@@ -1,9 +1,9 @@
 package dev.miguelbittar.library_api.infra.presentation;
 
+import dev.miguelbittar.library_api.core.entities.Book;
 import dev.miguelbittar.library_api.core.usecases.CreateBookUseCase;
 import dev.miguelbittar.library_api.infra.dtos.BookDto;
 import dev.miguelbittar.library_api.infra.mapper.BookDtoMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +23,8 @@ public class BookController {
 
     @PostMapping("/books")
     public String createBook (@RequestBody BookDto bookDto){
-        return null;
+        Book book = createBookUseCase.execute(bookDtoMapper.toEntity(bookDto));
+        return "Livro registrado";
     };
 
 }
