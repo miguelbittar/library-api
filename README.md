@@ -1,4 +1,4 @@
-# Library Management API
+# 📚 Library Management API
 
 A REST API for managing library books built with Clean Architecture principles and Spring Boot.
 
@@ -10,13 +10,14 @@ A REST API for managing library books built with Clean Architecture principles a
 * **Exception Handling**: Centralized error handling.
 * **API Documentation**: Swagger/OpenAPI documentation.
 * **Containerization**: Docker setup with PostgreSQL.
-* **Java 17**: Using records and modern Java features.
-
+* **Modern Java**: Developed with Java 17, utilizing the latest language features.
+  
 ## Tech Stack
 
 * **Java 17**: Records and modern language features.
 * **Spring Boot**: For rapid development and Spring Data JPA for database interaction.
 * **Docker**: Containerized application with PostgreSQL database.
+* **Flyway**: For managing database schema migrations.
 * **PostgreSQL**: Database backend.
 * **Swagger/OpenAPI**: API documentation.
 
@@ -26,7 +27,6 @@ The project follows **Clean Architecture** principles:
 
 * **Separation of Concerns**: Clear layers (Core, Infrastructure, and Presentation).
 * **Dependency Inversion**: Core business logic independent of frameworks.
-* **Testability**: Components with clear interfaces.
 * **Maintainability**: Organized code structure.
 
 ## Project Structure
@@ -59,9 +59,8 @@ src
 ### Prerequisites
 
 Ensure you have the following installed:
-* Java 17
-* Docker & Docker Compose
-* Maven (optional, if not using Docker)
+* **[Java 17](https://www.oracle.com/java/technologies/downloads/#java17)**
+* **[Docker](https://www.docker.com/)**
 
 ### Installation
 
@@ -108,10 +107,6 @@ http://localhost:8080/swagger-ui.html
 }
 ```
 
-## Database
-
-Uses PostgreSQL database. Schema is created automatically by JPA/Hibernate.
-
 ### Available Categories
 - FICTION
 - NON_FICTION  
@@ -123,13 +118,6 @@ Uses PostgreSQL database. Schema is created automatically by JPA/Hibernate.
 - POETRY
 - DRAMA
 - HISTORY
-
-## Testing
-
-Run tests with:
-```bash
-./mvnw test
-```
 
 ## License
 
